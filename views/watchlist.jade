@@ -1,0 +1,8 @@
+extends layout
+
+block content
+	h1.
+		Watch list
+	for item in watchlist
+		p= item.name
+		p= item.price

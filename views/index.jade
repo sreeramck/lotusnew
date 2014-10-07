@@ -1,0 +1,43 @@
+extends layout
+
+block content
+	h1= title
+	p Welcome to Lotus
+
+	// Wrapper
+	#wrapper
+
+		// USER INFO
+		#prodInfo
+			h2 User Info
+			p
+				strong Name:
+				|  <span id='prodInfoName'></span>
+				br
+				strong Price:
+				|  <span id='prodInfoPrice'></span>
+				br
+				strong Id:
+				|  <span id='prodInfoId'></span>
+		// /USER INFO
+
+		// USER LIST
+		h2 User List
+		#prodList
+			table
+				thead
+					th ProdName
+					th Price
+					th Delete?
+				tbody
+		// /USER LIST
+		// ADD USER
+		h2 Add Product
+		#addProd
+			fieldset
+				input#inputProdName(type='text', placeholder='name')
+				input#inputPrice(type='text', placeholder='price')
+				button#btnAddProd Add Product
+		// /ADD USER
+
+	// /WRAPPER
