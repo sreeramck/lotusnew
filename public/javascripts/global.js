@@ -33,7 +33,8 @@ function populateTable() {
         $.each(data, function(){
             tableContent += '<tr>';
             tableContent += '<td><a href="#" class="linkshowprod" rel="' + this.name + '" title="Watch List">' + this.name + '</a></td>';
-			tableContent += '<td>' + this.price + '</td>';
+			tableContent += '<td>' + this.salePrice + '</td>';
+			tableContent += '<td>' + this.priceUpdateDate + '</td>';
 			tableContent += '<td><a href="#" class="linkdeleteprod" rel="' + this._id + '">delete</a></td>';
             tableContent += '</tr>';
         });
@@ -60,49 +61,21 @@ function showProdInfo(event) {
 
 	    //Populate Info Box
 		$('#prodInfoName').text(thisProdObject.name);
-	    $('#prodInfoPrice').text(thisProdObject.price);
-	    $('#prodInfoId').text(thisProdObject._id);
-};
-
-
-/*
-function addProd(event){
-	event.preventDefault();
-	
-	var errorCount = 0;
-	$('#addProd input').each(function(index,val){
-		if($(this).val() === '') { errorCount++; }
-	});
-	
-	if(errorCount === 0){
+	    $('#prodInfoPrice').text(thisProdObject.salePrice);
+	    $('#prodInfoTime').text(thisProdObject.priceUpdateDate);
 		
-		var newProd = {
-			'name': $('#addProd fieldset input#inputProdName').val(),
-			'price': $('#addProd fieldset input#inputPrice').val()
-		}
-	
-		$.ajax({
-			type: 'POST',
-			data: newProd,
-			url: '/users/addprod'
-			dataType: 'JSON'
-		}).done(function(response){
-			if(response.msg === ''){
-				$('#addProd fieldset input').val('');
-			
-				populateTable();
-			}
-			else{
-				alert('Error: '+reponse.msg);
-			}
-		});
-	}	
-	else{
-		alert('Please fill in all fields');
-		return false;
-	}
+		 var logContent = '';
+		
+        $.each(thisProdObject.log, function(){
+            logContent += '<tr>';
+            logContent += '<td>' + this.hPrice + '</td>';
+			logContent += '<td> as on ' + this.hTime + '</td>';
+			logContent += '</tr>';
+        });
 
-}; */
+        // Inject the whole content string into our existing HTML table
+        $('#prodInfo table tbody').html(logContent);
+};
 
 
 
@@ -122,7 +95,7 @@ function addProd(event) {
         // If it is, compile all user info into one object
         var newProd = {
             'name': $('#addProd fieldset input#inputProdName').val(),
-            'price': $('#addProd fieldset input#inputPrice').val()
+            'salePrice': $('#addProd fieldset input#inputPrice').val()
         }
 
         // Use AJAX to post the object to our adduser service
@@ -138,7 +111,7 @@ function addProd(event) {
 
                 // Clear the form inputs
                 $('#addProd fieldset input').val('');
-
+				console.log("This is loggggggggggggg!!!");
                 // Update the table
                 populateTable();
 
@@ -158,32 +131,6 @@ function addProd(event) {
     }
 };
 
-/*
-function deleteProd(event){
-	event.preventDefault();
-	
-	var confirmation = confirm('Are sure want to un follow this product?');
-	
-	if(confirmation === true){
-		$.ajax({
-			type: 'DELETE',
-			url: 'users/delprod/' + $(this).attr)('rel')
-		}).done(function(response){
-			if(response.msg === ''){
-				
-			}
-			else{
-				alert('Error: ' + response.msg);
-			}
-			populateTable();
-		});
-	}
-	else
-	{
-		return false;
-		
-	}
-}; */
 
 // Delete User
 function deleteProd(event) {

@@ -9,26 +9,29 @@ block content
 
 		// USER INFO
 		#prodInfo
-			h2 User Info
+			h2 Price Info
 			p
 				strong Name:
 				|  <span id='prodInfoName'></span>
 				br
 				strong Price:
-				|  <span id='prodInfoPrice'></span>
-				br
-				strong Id:
-				|  <span id='prodInfoId'></span>
+				|  <span id='prodInfoPrice'></span> as of
+				|  <span id='prodInfoTime'></span>
+			table
+				thead
+					th Historical Data
+				tbody
 		// /USER INFO
 
 		// USER LIST
-		h2 User List
+		h2 Wish List
 		#prodList
 			table
 				thead
 					th ProdName
 					th Price
-					th Delete?
+					th Changed On
+					th Unfollow
 				tbody
 		// /USER LIST
 		// ADD USER
@@ -39,5 +42,5 @@ block content
 				input#inputPrice(type='text', placeholder='price')
 				button#btnAddProd Add Product
 		// /ADD USER
-
+		
 	// /WRAPPER
