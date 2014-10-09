@@ -2,3 +2,6 @@ node_modules/
 bower_components/
 node_modules
 data
+data/
+.gitignore
+npm-debug.log
