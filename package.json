@@ -15,6 +15,6 @@
     "jade": "~1.6.0",
 	"mongodb": "*",
 	"mongoskin": "*",
-	"Moment": "*"
+	"moment": "~2.8.3"
   }
 }
