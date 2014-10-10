@@ -4,6 +4,7 @@ var router = express.Router();
 var https = require('https');
 var moment = require('moment');
 
+var api = '2be878xcfkfqkxa5usbaum5b';
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', { title: 'LOTUS' });
@@ -14,7 +15,7 @@ router.get('/', function(req, res) {
       host : 'api.remix.bestbuy.com', // here only the domain name
       // (no http/https !)
       port : 443,
-      path : '/v1/products(sku=4826999)?show=name,sku,salePrice,priceUpdateDate&format=json&apiKey=2be878xcfkfqkxa5usbaum5b', // the rest of the url with parameters if needed
+      path : '/v1/products(sku=4826999)?show=name,sku,salePrice,priceUpdateDate&format=json&apiKey='+api, // the rest of the url with parameters if needed
       method : 'GET' // do GET
   };
  
@@ -136,9 +137,6 @@ router.post('/addprod', function(req, res) {
         }
     });
 });
-
-
-
 
 
 module.exports = router;

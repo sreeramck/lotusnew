@@ -9,7 +9,7 @@
 			"hTime" : "2014-10-05T00:01:33"
 		}
 	]
-}
+},
 {
 	"name" : "Whirlpool - 3.8 Cu. Ft. 12-Cycle High-Efficiency Top-Loading Washer - White",
 	"sku" : 1537112,
@@ -21,7 +21,7 @@
 			"hTime" : "2014-10-05T00:01:33"
 		}
 	]
-}
+},
 {
 	"name" : "Garmin - vívofit Fitness Band - Purple",
 	"sku" : 5258039,
@@ -33,7 +33,7 @@
 			"hTime" : "2014-10-05T00:01:33"
 		}
 	]
-}
+},
 {
 	"name" : "Samsung - 40\" Class (40\" Diag.) - LED - 1080p - 60Hz - HDTV",
 	"sku" : 5012276,
@@ -45,7 +45,7 @@
 			"hTime" : "2014-10-05T00:01:33"
 		}
 	]
-}
+},
 {
 	"name" : "Sony - VAIO 11.6\" 2-in-1 Touch-Screen Laptop - Intel Pentium - 4GB Memory - 128GB Solid State Drive - Black",
 	"sku" : 1996011,
