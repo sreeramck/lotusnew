@@ -11,17 +11,11 @@ var bodyParser = require('body-parser');
 // New Code
 var mongo = require('mongoskin');
 //var monk = require('monk');
-var db = mongo.db("mongodb://localhost:27017/lotusnew",{native_parser:true});
+//var db = mongo.db("mongodb://localhost:27017/lotusnew",{native_parser:true});
 
+//mongolab database
+var db = mongo.db("mongodb://sreeramck:password123@ds039950.mongolab.com:39950/lotusnew",{native_parser:true});
 
-db.createCollection('watchlist', function(err, collection){
-	   if (err) throw err;
-
-	   	console.log("Created testCollection");
-	 		console.log(collection);
-			populateDB();
-			console.log("db populated");
-	});
 
 
 
@@ -50,7 +44,7 @@ db.open(function(err, db) {
         });
     }
 });
-*/
+
 var populateDB = function() {
 
     var products = [{
@@ -119,7 +113,7 @@ var populateDB = function() {
         collection.insert(products, {safe:true}, function(err, result) {});
     });
 
-};
+};*/
 
 
 //////////////////////////////////
