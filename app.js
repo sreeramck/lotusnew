@@ -7,17 +7,26 @@ var bodyParser = require('body-parser');
 
 
 
-/*
+
 // New Code
 var mongo = require('mongoskin');
 //var monk = require('monk');
 var db = mongo.db("mongodb://localhost:27017/lotusnew",{native_parser:true});
-*/
+
+
+db.createCollection('watchlist', function(err, collection){
+	   if (err) throw err;
+
+	   	console.log("Created testCollection");
+	 		console.log(collection);
+			populateDB();
+			console.log("db populated");
+	});
 
 
 
 //////////rProduction db////////////
-
+/*
 var mongo = require('mongodb');
 
 var Server = mongo.Server,
@@ -25,6 +34,8 @@ var Server = mongo.Server,
     BSON = mongo.BSONPure;
 
 var server = new Server('localhost', 27017, {auto_reconnect: true});
+
+
 db = new Db('lotusnew', server, {safe: true});
 
 
@@ -39,7 +50,7 @@ db.open(function(err, db) {
         });
     }
 });
-
+*/
 var populateDB = function() {
 
     var products = [{
