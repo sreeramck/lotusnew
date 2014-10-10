@@ -25,15 +25,15 @@ var Server = mongo.Server,
     BSON = mongo.BSONPure;
 
 var server = new Server('localhost', 27017, {auto_reconnect: true});
-db = new Db('masterdb', server, {safe: true});
+db = new Db('lotusnew', server, {safe: true});
 
 
 db.open(function(err, db) {
     if(!err) {
-        console.log("Connected to 'winedb' database");
-        db.collection('wines', {safe:true}, function(err, collection) {
+        console.log("Connected to 'lotusnew' database");
+        db.collection('watchlist', {safe:true}, function(err, collection) {
             if (err) {
-                console.log("The 'wines' collection doesn't exist. Creating it with sample data...");
+                console.log("The 'product' collection doesn't exist. Creating it with sample data...");
                 populateDB();
             }
         });
