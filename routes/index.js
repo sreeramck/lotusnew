@@ -9,53 +9,9 @@ var api = '2be878xcfkfqkxa5usbaum5b';
 router.get('/', function(req, res) {
   res.render('index', { title: 'LOTUS' });
   
+  scriptcall();
   
   
-  var optionsget = {
-      host : 'api.remix.bestbuy.com', // here only the domain name
-      // (no http/https !)
-      port : 443,
-      path : '/v1/products(sku=4826999)?show=name,sku,salePrice,priceUpdateDate&format=json&apiKey='+api, // the rest of the url with parameters if needed
-      method : 'GET' // do GET
-  };
- 
-  console.info('Options prepared:');
-  console.info(optionsget);
-  console.info('Do the GET call');
-
-
-  setInterval(function(){
-  	var now = moment();
-  	console.log("*******************************************");
-  	console.log(now.format());
-  	var reqGet = https.request(optionsget, function(res) {
-  	    //console.log("statusCode: ", res.statusCode);
-  	    // uncomment it for header details
-  		//  console.log("headers: ", res.headers);
- 
- 
-  	    res.on('data', function(d) {
-  	        //console.info('GET result:\n');
-  	       // process.stdout.write(d);
-			
-  			var obj = JSON.parse(d);
-			
-  			console.log("Name: ",obj.products[0].name);
-  			console.log("Price: ",obj.products[0].salePrice);			
-  			console.log("Price Changed on: ",obj.products[0].priceUpdateDate);	
-			console.log("Last updated time: ",now.format());		
-  			
-		
-  			
-  	    });
- 
-  	});
- 
-  	reqGet.end();
-  	reqGet.on('error', function(e) {
-  	    console.error(e);
-  	});
-  },1000*20)
 });
 
 /* GET Hello World page. */
@@ -110,6 +66,59 @@ router.post('/addprod', function(req, res) {
         }
     });
 });
+
+var scriptcall = function()
+
+{
+    var optionsget = {
+        host : 'api.remix.bestbuy.com', // here only the domain name
+        // (no http/https !)
+        port : 443,
+        path : '/v1/products(sku=4826999)?show=name,sku,salePrice,priceUpdateDate&format=json&apiKey='+api, // the rest of the url with parameters if needed
+        method : 'GET' // do GET
+    };
+ 
+    console.info('Options prepared:');
+    console.info(optionsget);
+    console.info('Do the GET call');
+
+
+    setInterval(function(){
+		console.log("Inside Script Call");
+    	var now = moment();
+    	console.log("*******************************************");
+    	console.log(now.format());
+    	var reqGet = https.request(optionsget, function(res) {
+    	    //console.log("statusCode: ", res.statusCode);
+    	    // uncomment it for header details
+    		//  console.log("headers: ", res.headers);
+ 
+ 
+    	    res.on('data', function(d) {
+    	        //console.info('GET result:\n');
+    	       // process.stdout.write(d);
+			
+    			var obj = JSON.parse(d);
+			
+    			console.log("Name: ",obj.products[0].name);
+    			console.log("Price: ",obj.products[0].salePrice);			
+    			console.log("Price Changed on: ",obj.products[0].priceUpdateDate);	
+  			console.log("Last updated time: ",now.format());		
+  			
+		
+  			
+    	    });
+ 
+    	});
+ 
+    	reqGet.end();
+    	reqGet.on('error', function(e) {
+    	    console.error(e);
+    	});
+    },1000*20)
+	
+	
+}
 
 
 module.exports = router;
