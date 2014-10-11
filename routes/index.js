@@ -8,7 +8,7 @@ var api = '2be878xcfkfqkxa5usbaum5b';
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', { title: 'LOTUS' });
-  /*
+  
   
   
   var optionsget = {
@@ -55,7 +55,7 @@ router.get('/', function(req, res) {
   	reqGet.on('error', function(e) {
   	    console.error(e);
   	});
-  },1000*20)*/
+  },1000*20)
 });
 
 /* GET Hello World page. */
