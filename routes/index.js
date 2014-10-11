@@ -8,7 +8,7 @@ var api = '2be878xcfkfqkxa5usbaum5b';
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', { title: 'LOTUS' });
-  
+  /*
   
   
   var optionsget = {
@@ -45,34 +45,7 @@ router.get('/', function(req, res) {
   			console.log("Price Changed on: ",obj.products[0].priceUpdateDate);	
 			console.log("Last updated time: ",now.format());		
   			
-		/*	router.post('/', function(req, res) {
-		    
-			var db = req.db;
-			var collection = db.get('watchlist');
-			   // Submit to the DB
-			   collection.update(
-					{sku:obj.products[0].sku},
-					{'$push':
-					 	{	
-						 "log": 
-						 {
-							 "hPrice":obj.products[0].salePrice,
-							 "hTime":now.format()
-						 }
-					 	}
-				 	}, function (err, doc) {
-        if (err) {
-            // If it failed, return error
-            res.send("There was a problem adding the information to the database.");
-        }
-        else {
-            // If it worked, set the header so the address bar doesn't still say /addprod
-            res.location("watchlist");
-            // And forward to success page
-            res.redirect("watchlist");
-        }
-    });	
-			}); */
+		
   			
   	    });
  
@@ -82,7 +55,7 @@ router.get('/', function(req, res) {
   	reqGet.on('error', function(e) {
   	    console.error(e);
   	});
-  },1000*20)
+  },1000*20)*/
 });
 
 /* GET Hello World page. */
