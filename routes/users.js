@@ -23,11 +23,11 @@ router.post('/addprod', function(req, res) {
 });
 
 
-router.post('/delprod/:id', function(req, res) {
+router.delete('/deleteuser/:id', function(req, res) {
     var db = req.db;
-	var prodTodelete = req.params.id;
-    db.collection('watchlist').removeById(prodTodelete, function(err, result){
-        res.send((result === 1) ? { msg: '' } : { msg: 'error: '+ err });
+    var userToDelete = req.params.id;
+    db.collection('watchlist').removeById(userToDelete, function(err, result) {
+        res.send((result === 1) ? { msg: '' } : { msg:'error: ' + err });
     });
 });
 

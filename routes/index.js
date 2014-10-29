@@ -8,7 +8,7 @@ var api = '2be878xcfkfqkxa5usbaum5b';
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', { title: 'LOTUS' });
-  
+  //res.send("Welcome to lotus! Be sure to <a href='/login'>login</a>!");
   scriptcall();
   
   
@@ -69,7 +69,8 @@ router.post('/addprod', function(req, res) {
 
 var scriptcall = function()
 
-{
+{	
+	
     var optionsget = {
         host : 'api.remix.bestbuy.com', // here only the domain name
         // (no http/https !)
@@ -103,8 +104,10 @@ var scriptcall = function()
     			console.log("Name: ",obj.products[0].name);
     			console.log("Price: ",obj.products[0].salePrice);			
     			console.log("Price Changed on: ",obj.products[0].priceUpdateDate);	
-  			console.log("Last updated time: ",now.format());		
-  			
+  				console.log("Last updated time: ",now.format());		
+  				
+				
+				
 		
   			
     	    });

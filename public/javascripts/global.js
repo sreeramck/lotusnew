@@ -6,7 +6,7 @@ $('#prodList table tbody').on('click', 'td a.linkshowprod', showProdInfo);
 // Add User button click
 $('#btnAddProd').on('click', addProd);
 
-$('#prodList table tbody').on('click','td a.linkdeleteprod', deleteProd)
+$('#prodList table tbody').on('click','td a.linkdeleteprod', deleteUser);
 
 $(document).ready(function() {
 
@@ -133,12 +133,12 @@ function addProd(event) {
 
 
 // Delete User
-function deleteProd(event) {
+function deleteUser(event) {
 
     event.preventDefault();
 
     // Pop up a confirmation dialog
-    var confirmation = confirm('Are you sure you want to un Subscribe this product?');
+    var confirmation = confirm('Are you sure you want to delete this product?');
 
     // Check and make sure the user confirmed
     if (confirmation === true) {
@@ -146,7 +146,7 @@ function deleteProd(event) {
         // If they did, do our delete
         $.ajax({
             type: 'DELETE',
-            url: '/users/delprod/' + $(this).attr('rel')
+            url: '/users/deleteuser/' + $(this).attr('rel')
         }).done(function( response ) {
 
             // Check for a successful (blank) response
