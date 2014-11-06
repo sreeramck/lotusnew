@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+//var stormpath = require('express-stormpath');
 
 var https = require('https');
 var moment = require('moment');
@@ -7,12 +8,17 @@ var moment = require('moment');
 var api = '2be878xcfkfqkxa5usbaum5b';
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'LOTUS' });
+ res.render('index', { title: 'LOTUS' });
   //res.send("Welcome to lotus! Be sure to <a href='/login'>login</a>!");
-  scriptcall();
+ // scriptcall();
   
   
 });
+
+
+
+
+
 
 /* GET Hello World page. */
 router.get('/helloworld', function(req, res) {

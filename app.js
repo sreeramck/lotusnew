@@ -26,14 +26,19 @@ var users = require('./routes/users');
 var app = express();
 
 // app.use(stormpath.init(app, {
-//   apiKeyId:     process.env.STORMPATH_API_KEY_ID,
-//   apiKeySecret: process.env.STORMPATH_API_KEY_SECRET,
-//   secretKey:    process.env.STORMPATH_SECRET_KEY,
-//   application:  process.env.STORMPATH_URL,
-// }));
+//    apiKeyId:     process.env.STORMPATH_API_KEY_ID,
+//    apiKeySecret: process.env.STORMPATH_API_KEY_SECRET,
+//    secretKey:    process.env.STORMPATH_SECRET_KEY,
+//    application:  process.env.STORMPATH_URL,
+//  }));
 
 
-
+// app.use(stormpath.init(app, {
+//     // apiKeyId:     process.env.STORMPATH_API_KEY_ID,
+// //     apiKeySecret: process.env.STORMPATH_API_KEY_SECRET,
+// //secretKey:    process.env.STORMPATH_SECRET_KEY,
+//     application:  process.env.STORMPATH_URL,
+//   }));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
