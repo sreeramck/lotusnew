@@ -9,6 +9,7 @@ var moment = require('moment');
 router.get('/prodlist', function(req, res) {
     var db = req.db;
     db.collection('watchlist').find().toArray(function(err, items){
+		//console.log(items);
       	res.json(items);
     });
 });
@@ -32,11 +33,26 @@ router.delete('/deleteuser/:id', function(req, res) {
 });
 
 
-router.post('/best',function(req,res){
-	//var request = require("request");
-	req.get("http://api.remix.bestbuy.com/v1/products(search=mac)?format=json&show=sku,name,salePrice&apiKey=2be878xcfkfqkxa5usbaum5b",function(err,res,body){
-		res.json(body);
-	})
+router.get('/best/:id',function(req,res){
+	
+	var request = require('request');
+	var searchProd = req.params.id;
+	var options = {
+	    url: 'http://api.remix.bestbuy.com/v1/products(search='+searchProd+')?apiKey=2be878xcfkfqkxa5usbaum5b&format=json',
+	    headers: {
+	        'User-Agent': 'request'
+	    }
+	};
+
+	function callback(error, response, body) {
+	    if (!error && response.statusCode == 200) {
+	        var info = JSON.parse(body);
+			console.log(info);
+	        res.json(info);
+	    }
+	}
+
+	request(options, callback);
 });
 
 
