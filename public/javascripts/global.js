@@ -12,7 +12,7 @@ $('#btnSearProd').on('click', searProd);
 
 $('#prodList table tbody').on('click','td a.linkdeleteprod', deleteUser);
 
-$('#resultList table tbody').on('click','td a.linkwatchprod', addProd);
+$('#resultList table tbody').on('click','td a.linkwatchprod', addWatch);
 
 $(document).ready(function() {
 
@@ -74,7 +74,7 @@ function searchTable() {
 			tableContent += '<td><a href="'+ this.url +'">' + this.name + '</a></td>';
 			tableContent += '<td>' + this.salePrice + '</td>';
 			tableContent += '<td>' + this.priceUpdateDate + '</td>';
-			tableContent += '<td><a href="#" class="linkwatchprod" rel="' + this._id + '">  Add to Watch List</a></td>';
+			tableContent += '<td><a href="#" class="linkwatchprod" rel="' + this.sku + '">  Add to Watch List</a></td>';
 			tableContent += '</tr>';
 		});
 
@@ -170,6 +170,53 @@ function searchTable() {
 			alert('Please fill in all fields');
 			return false;
 		}
+	};
+	
+	
+	
+	function addWatch(event) {
+		event.preventDefault();
+		
+		$.ajax({
+			type: 'POST',
+			url: '/users/addWatch/' + $(this).attr('rel')
+		}).done(function( response ) {
+
+			// Check for a successful (blank) response
+			if (response.msg === '') {
+				alert('Success!!');
+				populateTable();
+			}
+			else {
+				alert('Error: ' + response.msg);
+			}
+
+			// Update the table
+			
+
+		});
+		
+		/*
+
+			$.ajax({
+				type: 'POST',
+				url: '/users/addWatch', + $(this).attr('rel')
+			}).done(function( response ) {
+
+				// Check for successful (blank) response
+				if (response.msg === '') {
+					alert('Product added to the watchlist');
+					populateTable();
+
+				}
+				else {
+
+					// If something goes wrong, alert the error message that our service returned
+					alert('Error: ' + response.msg);
+
+				}
+			)};
+		*/
 	};
 
 

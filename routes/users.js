@@ -7,29 +7,29 @@ var moment = require('moment');
 
 /* GET Userlist page. */
 router.get('/prodlist', function(req, res) {
-    var db = req.db;
-    db.collection('watchlist').find().toArray(function(err, items){
+	var db = req.db;
+	db.collection('watchlist').find().toArray(function(err, items){
 		//console.log(items);
-      	res.json(items);
-    });
+		res.json(items);
+	});
 });
 
 router.post('/addprod', function(req, res) {
-    var db = req.db;
-    db.collection('watchlist').insert(req.body, function(err, result){
-        res.send(
-            (err === null) ? { msg: '' } : { msg: err }
-        );
-    });
+	var db = req.db;
+	db.collection('watchlist').insert(req.body, function(err, result){
+		res.send(
+			(err === null) ? { msg: '' } : { msg: err }
+		);
+	});
 });
 
 
 router.delete('/deleteuser/:id', function(req, res) {
-    var db = req.db;
-    var userToDelete = req.params.id;
-    db.collection('watchlist').removeById(userToDelete, function(err, result) {
-        res.send((result === 1) ? { msg: '' } : { msg:'error: ' + err });
-    });
+	var db = req.db;
+	var userToDelete = req.params.id;
+	db.collection('watchlist').removeById(userToDelete, function(err, result) {
+		res.send((result === 1) ? { msg: '' } : { msg:'error: ' + err });
+	});
 });
 
 
@@ -38,21 +38,89 @@ router.get('/best/:id',function(req,res){
 	var request = require('request');
 	var searchProd = req.params.id;
 	var options = {
-	    url: 'http://api.remix.bestbuy.com/v1/products(search='+searchProd+')?apiKey=2be878xcfkfqkxa5usbaum5b&format=json',
-	    headers: {
-	        'User-Agent': 'request'
-	    }
+		url: 'http://api.remix.bestbuy.com/v1/products(search='+searchProd+')?apiKey=2be878xcfkfqkxa5usbaum5b&format=json',
+		headers: {
+			'User-Agent': 'request'
+		}
 	};
 
 	function callback(error, response, body) {
-	    if (!error && response.statusCode == 200) {
-	        var info = JSON.parse(body);
-			console.log(info);
-	        res.json(info);
-	    }
+		if (!error && response.statusCode == 200) {
+			var info = JSON.parse(body);
+			//console.log(info);
+			res.json(info);
+		}
 	}
 
 	request(options, callback);
+});
+
+
+
+router.post('/addWatch/:id', function(req, res) {
+	console.log("Adding to watchlist!!!");
+	
+	var db = req.db;
+	var request = require('request');
+	var prodId = req.params.id;
+	
+	//var collection = db.get('watchlist');
+	var options = {
+		url: 'http://api.remix.bestbuy.com/v1/products(sku='+prodId+')?apiKey=2be878xcfkfqkxa5usbaum5b&format=json',
+		headers: {
+			'User-Agent': 'request'
+		}
+	};
+
+	function callback(error, response, body) {
+		if (!error && response.statusCode == 200) {
+			var info = JSON.parse(body);
+			console.log(info.products[0].name);
+			console.log(info.products[0].sku);
+			console.log(info.products[0].salePrice);
+			console.log(info.products[0].priceUpdateDate);
+			
+			console.log('What the fuck');
+			
+			// var dump = { "name" : "Lenovo Laptop - Intel Pentium - 4GB Memory - 128GB Solid State Drive - Black",
+			// 						 "sku" : 1996011,
+			// 						 "salePrice" : 799.99,
+			// 						 "priceUpdateDate" : "2014-08-10T00:01:12",
+			// 						 "log" : [
+			// 						 		{ "hPrice" : 799.99,
+			// 								  "hTime" : "2014-10-05T00:01:33" }
+			// 								  ]
+			//		   };
+			var dump = { "name" : info.products[0].name, 
+			"sku" : info.products[0].sku, 
+			"salePrice" : info.products[0].salePrice, 
+			"priceUpdateDate" : info.products[0].priceUpdateDate, 
+			"log" : [ 
+			{ "hPrice" : info.products[0].salePrice, 
+			"hTime" : info.products[0].priceUpdateDate } 
+			] 
+		};
+			
+		db.collection('watchlist').insert(dump, function (err, doc) {
+			if (err) {
+				console.log(err);
+				// If it failed, return error
+				res.send("There was a problem adding the information to the database.");
+			}
+			else {
+				console.log('added successfully');
+				res.send({msg: ''});
+			}
+		});
+			
+		// res.json(info);
+	}
+}
+
+request(options, callback);
+	
+	
+	
 });
 
 
