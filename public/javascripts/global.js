@@ -71,7 +71,7 @@ function searchTable() {
 
 		$.each(data.products, function(){
 			tableContent += '<tr>';
-			tableContent += '<td>' + this.name + '</td>';
+			tableContent += '<td><a href="'+ this.url +'">' + this.name + '</a></td>';
 			tableContent += '<td>' + this.salePrice + '</td>';
 			tableContent += '<td>' + this.priceUpdateDate + '</td>';
 			tableContent += '<td><a href="#" class="linkwatchprod" rel="' + this._id + '">  Add to Watch List</a></td>';
