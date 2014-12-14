@@ -57,6 +57,30 @@ router.get('/best/:id',function(req,res){
 
 
 
+router.get('/ebay/:id',function(req,res){
+	//console.log("ebay Entery!!!");
+	var request = require('request');
+	var searchProd = req.params.id;
+	var options = {
+		url: 'http://open.api.ebay.com/shopping?callname=FindPopularItems&responseencoding=JSON&appid=lotusbc03-842b-4aa3-b731-2f3f3165220&siteid=0&QueryKeywords='+searchProd+'&version=517',
+		headers: {
+			'User-Agent': 'request'
+		}
+	};
+
+	function callback(error, response, body) {
+		if (!error && response.statusCode == 200) {
+			var info = JSON.parse(body);
+			//console.log("ebay result");
+			//console.log(info);
+			res.json(info);
+		}
+	}
+
+	request(options, callback);
+});
+
+
 router.post('/addWatch/:id', function(req, res) {
 	console.log("Adding to watchlist!!!");
 	

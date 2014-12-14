@@ -63,6 +63,8 @@ function searchTable() {
 	var item = $('#searchProd fieldset input#inputSearName').val();
 	
 	var urlzz = '/users/best/'+item;
+	
+	var urlzz1 = '/users/ebay/'+item;
 
 	$.getJSON( urlzz, function( data ) {
 		
@@ -80,6 +82,26 @@ function searchTable() {
 
 		// Inject the whole content string into our existing HTML table
 		$('#resultList table tbody').html(tableContent);
+		
+	});
+	
+	$.getJSON( urlzz1, function( data ) {
+		
+		var tableContent = '';
+		resultListData = data;
+
+		$.each(data.ItemArray.Item, function(){
+			tableContent += '<tr>';
+			tableContent += '<td><a href="'+ this.ViewItemURLForNaturalSearch +'">' + this.Title + '</a></td>';
+			tableContent += '<td>' + this.ConvertedCurrentPrice.Value + '</td>';
+			tableContent += '<td>' + this.EndTime + '</td>';
+			tableContent += '<td><a href="#" class="linkwatchprod" rel="' + this.ItemID + '">  Add to Watch List</a></td>';
+			tableContent += '</tr>';
+		});
+
+		// Inject the whole content string into our existing HTML table
+		
+		$('#resultListEbay table tbody').html(tableContent);
 	});
 };
 
