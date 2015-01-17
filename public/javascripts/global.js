@@ -65,6 +65,8 @@ function searchTable() {
 	var urlzz = '/users/best/'+item;
 	
 	var urlzz1 = '/users/ebay/'+item;
+	
+	var urlzz2 = '/users/semantics/'+item;
 
 	$.getJSON( urlzz, function( data ) {
 		
@@ -87,6 +89,7 @@ function searchTable() {
 	
 	$.getJSON( urlzz1, function( data ) {
 		
+		
 		var tableContent = '';
 		resultListData = data;
 
@@ -98,193 +101,229 @@ function searchTable() {
 			tableContent += '<td><a href="#" class="linkwatchprod" rel="' + this.ItemID + '">  Add to Watch List</a></td>';
 			tableContent += '</tr>';
 		});
+		
 
 		// Inject the whole content string into our existing HTML table
 		
 		$('#resultListEbay table tbody').html(tableContent);
 	});
+	
+	
+	$.getJSON( urlzz2, function( data ) {
+		var tableContent = '';
+		resultListData = data;
+
+		$.each(data.results, function(){
+			tableContent += '<tr>';
+			tableContent += '<td>' + this.name + '</td>';
+			tableContent += '<td>' + this.mpn + '</td>';
+			tableContent += '</tr>';
+			$.each(this.sitedetails, function(){
+				tableContent += '<tr>';
+				tableContent += '<td><a href="'+ this.url +'">' + this.name + '</a></td>';
+				//tableContent += '<td>' + this.listprice + '</td>';
+				tableContent += '</tr>';
+				$.each(this.latestoffers, function(){
+					tableContent += '<tr>';
+					tableContent += '<td>Seller : ' + this.seller + '</a></td>';
+					tableContent += '<td>' + this.price + '</td>';
+					tableContent += '</tr>';
+				});
+				
+			});
+			tableContent += '<tr>';
+			tableContent += '<td>'+'******************************************************************'+'</td>';
+			tableContent += '</tr>';
+		});
+
+		// Inject the whole content string into our existing HTML table
+		
+		$('#resultListSemantics table tbody').html(tableContent);
+	});
+	
+	
 };
 
 
 
-	// Show User Info
-	function showProdInfo(event) {
+// Show User Info
+function showProdInfo(event) {
 
-		// Prevent Link from Firing
-		event.preventDefault();
+	// Prevent Link from Firing
+	event.preventDefault();
 
-		// Retrieve username from link rel attribute
-		var thisProdName = $(this).attr('rel');
+	// Retrieve username from link rel attribute
+	var thisProdName = $(this).attr('rel');
 
-		// Get Index of object based on id value
-		var arrayPosition = prodListData.map(function(arrayItem) { return arrayItem.name; }).indexOf(thisProdName);
+	// Get Index of object based on id value
+	var arrayPosition = prodListData.map(function(arrayItem) { return arrayItem.name; }).indexOf(thisProdName);
 
-		// Get our User Object
-		var thisProdObject = prodListData[arrayPosition];
+	// Get our User Object
+	var thisProdObject = prodListData[arrayPosition];
 
-		//Populate Info Box
-		$('#prodInfoName').text(thisProdObject.name);
-		$('#prodInfoPrice').text(thisProdObject.salePrice);
-		$('#prodInfoTime').text(thisProdObject.priceUpdateDate);
+	//Populate Info Box
+	$('#prodInfoName').text(thisProdObject.name);
+	$('#prodInfoPrice').text(thisProdObject.salePrice);
+	$('#prodInfoTime').text(thisProdObject.priceUpdateDate);
 		
-		var logContent = '';
+	var logContent = '';
 		
-		$.each(thisProdObject.log, function(){
-			logContent += '<tr>';
-			logContent += '<td>' + this.hPrice + '</td>';
-			logContent += '<td> as on ' + this.hTime + '</td>';
-			logContent += '</tr>';
-		});
+	$.each(thisProdObject.log, function(){
+		logContent += '<tr>';
+		logContent += '<td>' + this.hPrice + '</td>';
+		logContent += '<td> as on ' + this.hTime + '</td>';
+		logContent += '</tr>';
+	});
 
-		// Inject the whole content string into our existing HTML table
-		$('#prodInfo table tbody').html(logContent);
-	};
+	// Inject the whole content string into our existing HTML table
+	$('#prodInfo table tbody').html(logContent);
+};
 
 
 
-	// Add User
-	function addProd(event) {
-		event.preventDefault();
+// Add User
+function addProd(event) {
+	event.preventDefault();
 
-		// Super basic validation - increase errorCount variable if any fields are blank
-		var errorCount = 0;
-		$('#addProd input').each(function(index, val) {
-			if($(this).val() === '') { errorCount++; }
-		});
+	// Super basic validation - increase errorCount variable if any fields are blank
+	var errorCount = 0;
+	$('#addProd input').each(function(index, val) {
+		if($(this).val() === '') { errorCount++; }
+	});
 
-		// Check and make sure errorCount's still at zero
-		if(errorCount === 0) {
+	// Check and make sure errorCount's still at zero
+	if(errorCount === 0) {
 
-			// If it is, compile all user info into one object
-			var newProd = {
-				'name': $('#addProd fieldset input#inputProdName').val(),
-				'salePrice': $('#addProd fieldset input#inputPrice').val()
-			}
-
-			// Use AJAX to post the object to our adduser service
-			$.ajax({
-				type: 'POST',
-				data: newProd,
-				url: '/users/addprod',
-				dataType: 'JSON'
-			}).done(function( response ) {
-
-				// Check for successful (blank) response
-				if (response.msg === '') {
-
-					// Clear the form inputs
-					$('#addProd fieldset input').val('');
-					console.log("This is loggggggggggggg!!!");
-					// Update the table
-					populateTable();
-
-				}
-				else {
-
-					// If something goes wrong, alert the error message that our service returned
-					alert('Error: ' + response.msg);
-
-				}
-			});
+		// If it is, compile all user info into one object
+		var newProd = {
+			'name': $('#addProd fieldset input#inputProdName').val(),
+			'salePrice': $('#addProd fieldset input#inputPrice').val()
 		}
-		else {
-			// If errorCount is more than 0, error out
-			alert('Please fill in all fields');
-			return false;
-		}
-	};
-	
-	
-	
-	function addWatch(event) {
-		event.preventDefault();
-		
+
+		// Use AJAX to post the object to our adduser service
 		$.ajax({
 			type: 'POST',
-			url: '/users/addWatch/' + $(this).attr('rel')
+			data: newProd,
+			url: '/users/addprod',
+			dataType: 'JSON'
+		}).done(function( response ) {
+
+			// Check for successful (blank) response
+			if (response.msg === '') {
+
+				// Clear the form inputs
+				$('#addProd fieldset input').val('');
+				console.log("This is loggggggggggggg!!!");
+				// Update the table
+				populateTable();
+
+			}
+			else {
+
+				// If something goes wrong, alert the error message that our service returned
+				alert('Error: ' + response.msg);
+
+			}
+		});
+	}
+	else {
+		// If errorCount is more than 0, error out
+		alert('Please fill in all fields');
+		return false;
+	}
+};
+	
+	
+	
+function addWatch(event) {
+	event.preventDefault();
+		
+	$.ajax({
+		type: 'POST',
+		url: '/users/addWatch/' + $(this).attr('rel')
+	}).done(function( response ) {
+
+		// Check for a successful (blank) response
+		if (response.msg === '') {
+			alert('Success!!');
+			populateTable();
+		}
+		else {
+			alert('Error: ' + response.msg);
+		}
+
+		// Update the table
+			
+
+	});
+		
+	/*
+
+	$.ajax({
+	type: 'POST',
+	url: '/users/addWatch', + $(this).attr('rel')
+	}).done(function( response ) {
+
+	// Check for successful (blank) response
+	if (response.msg === '') {
+	alert('Product added to the watchlist');
+	populateTable();
+
+	}
+	else {
+
+	// If something goes wrong, alert the error message that our service returned
+	alert('Error: ' + response.msg);
+
+	}
+	)};
+	*/
+};
+
+
+// Delete User
+function deleteUser(event) {
+
+	event.preventDefault();
+
+	// Pop up a confirmation dialog
+	var confirmation = confirm('Are you sure you want to delete this product?');
+
+	// Check and make sure the user confirmed
+	if (confirmation === true) {
+
+		// If they did, do our delete
+		$.ajax({
+			type: 'DELETE',
+			url: '/users/deleteuser/' + $(this).attr('rel')
 		}).done(function( response ) {
 
 			// Check for a successful (blank) response
 			if (response.msg === '') {
-				alert('Success!!');
-				populateTable();
 			}
 			else {
 				alert('Error: ' + response.msg);
 			}
 
 			// Update the table
-			
+			populateTable();
 
 		});
-		
-		/*
 
-			$.ajax({
-				type: 'POST',
-				url: '/users/addWatch', + $(this).attr('rel')
-			}).done(function( response ) {
+	}
+	else {
 
-				// Check for successful (blank) response
-				if (response.msg === '') {
-					alert('Product added to the watchlist');
-					populateTable();
+		// If they said no to the confirm, do nothing
+		return false;
 
-				}
-				else {
+	}
 
-					// If something goes wrong, alert the error message that our service returned
-					alert('Error: ' + response.msg);
-
-				}
-			)};
-		*/
-	};
+};
 
 
-	// Delete User
-	function deleteUser(event) {
-
-		event.preventDefault();
-
-		// Pop up a confirmation dialog
-		var confirmation = confirm('Are you sure you want to delete this product?');
-
-		// Check and make sure the user confirmed
-		if (confirmation === true) {
-
-			// If they did, do our delete
-			$.ajax({
-				type: 'DELETE',
-				url: '/users/deleteuser/' + $(this).attr('rel')
-			}).done(function( response ) {
-
-				// Check for a successful (blank) response
-				if (response.msg === '') {
-				}
-				else {
-					alert('Error: ' + response.msg);
-				}
-
-				// Update the table
-				populateTable();
-
-			});
-
-		}
-		else {
-
-			// If they said no to the confirm, do nothing
-			return false;
-
-		}
-
-	};
-
-
-	function searProd(event) {
-		event.preventDefault();
-		searchTable();
-	};
+function searProd(event) {
+	event.preventDefault();
+	searchTable();
+};
 
 	

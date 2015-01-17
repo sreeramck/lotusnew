@@ -81,6 +81,40 @@ router.get('/ebay/:id',function(req,res){
 });
 
 
+router.get('/semantics/:id',function(req,res){
+	///////////////////////////////////////////////////
+	var request = require('request');
+	var searchProd = req.params.id;
+	
+	
+	var api_key = 'SEM39A9872020CF1E7F9E142554B35F6CC65';
+	var api_secret = 'M2RlNGI0NzJkMWMzMzIyMjg2ZmE1ODM4NDlhYTE0NjY';
+	var sem3 = require('semantics3-node')(api_key,api_secret);
+ 
+ 
+ 
+	var info;
+	sem3.products.products_field( "search", searchProd );
+	sem3.products.get_products(
+		function callback(err, products) {
+			if (err) {
+				console.log("Couldn't execute query: get_products");
+				return;
+			}   
+			//console.log("Results of query:\n" + JSON.stringify( products )); 
+			info = JSON.parse(products);
+			//var results = JSON.stringify(info.sitedetails);
+			console.log("Semantics result");
+			console.log(info);
+			res.json(info);
+		}   
+	);
+	
+	
+	//request(options, callback);
+});
+
+
 router.post('/addWatch/:id', function(req, res) {
 	console.log("Adding to watchlist!!!");
 	
@@ -111,37 +145,37 @@ router.post('/addWatch/:id', function(req, res) {
 			// 						 "salePrice" : 799.99,
 			// 						 "priceUpdateDate" : "2014-08-10T00:01:12",
 			// 						 "log" : [
-			// 						 		{ "hPrice" : 799.99,
-			// 								  "hTime" : "2014-10-05T00:01:33" }
-			// 								  ]
-			//		   };
-			var dump = { "name" : info.products[0].name, 
-			"sku" : info.products[0].sku, 
-			"salePrice" : info.products[0].salePrice, 
-			"priceUpdateDate" : info.products[0].priceUpdateDate, 
-			"log" : [ 
-			{ "hPrice" : info.products[0].salePrice, 
-			"hTime" : info.products[0].priceUpdateDate } 
-			] 
-		};
+				// 						 		{ "hPrice" : 799.99,
+				// 								  "hTime" : "2014-10-05T00:01:33" }
+				// 								  ]
+				//		   };
+				var dump = { "name" : info.products[0].name, 
+				"sku" : info.products[0].sku, 
+				"salePrice" : info.products[0].salePrice, 
+				"priceUpdateDate" : info.products[0].priceUpdateDate, 
+				"log" : [ 
+					{ "hPrice" : info.products[0].salePrice, 
+					"hTime" : info.products[0].priceUpdateDate } 
+				] 
+			};
 			
-		db.collection('watchlist').insert(dump, function (err, doc) {
-			if (err) {
-				console.log(err);
-				// If it failed, return error
-				res.send("There was a problem adding the information to the database.");
-			}
-			else {
-				console.log('added successfully');
-				res.send({msg: ''});
-			}
-		});
+			db.collection('watchlist').insert(dump, function (err, doc) {
+				if (err) {
+					console.log(err);
+					// If it failed, return error
+					res.send("There was a problem adding the information to the database.");
+				}
+				else {
+					console.log('added successfully');
+					res.send({msg: ''});
+				}
+			});
 			
-		// res.json(info);
+			// res.json(info);
+		}
 	}
-}
 
-request(options, callback);
+	request(options, callback);
 	
 	
 	
