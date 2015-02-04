@@ -102,10 +102,11 @@ router.get('/semantics/:id',function(req,res){
 				return;
 			}   
 			//console.log("Results of query:\n" + JSON.stringify( products )); 
-			info = JSON.stringify(products);
+			info = JSON.parse(products);
 			//var results = JSON.stringify(info.sitedetails);
 			console.log("Semantics result");
 			console.log(info);
+			res.setHeader('Content-Type', 'application/json');
 			res.json(info);
 		}   
 	);
