@@ -106,7 +106,8 @@ router.get('/semantics/:id',function(req,res){
 			//var results = JSON.stringify(info.sitedetails);
 			console.log("Semantics result");
 			console.log(info);
-			res.setHeader('Content-Type', 'application/json');
+			//res.setHeader('Content-Type', 'application/json');
+			res.type('json');
 			res.json(info);
 		}   
 	);
